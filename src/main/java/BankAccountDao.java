@@ -10,4 +10,8 @@ public class BankAccountDao {
     public void save(BankAccountDTO bankAccountDTO) {
 
     }
+
+    public BankAccountDTO getAccount(String accountNumber) {
+        return null;
+    }
 }

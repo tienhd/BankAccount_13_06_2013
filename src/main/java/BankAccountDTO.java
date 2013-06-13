@@ -22,4 +22,21 @@ public class BankAccountDTO {
     public double getBalance() {
         return balance;
     }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof BankAccountDTO) {
+            BankAccountDTO bankAccountDTOObj = (BankAccountDTO) o;
+            return ((bankAccountDTOObj.getBalance() == this.balance) && (bankAccountDTOObj.getAccountNumber().equals(this.accountNumber)));
+        }
+        return false;
+    }
 }

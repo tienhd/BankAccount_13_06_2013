@@ -5,6 +5,7 @@ import org.mockito.ArgumentCaptor;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.verify;
  */
 public class BankAccountTest {
     BankAccountDao mockBankAccountDao = mock(BankAccountDao.class);
-
+    final String accountNumber = "1234567890";
     @Before
     public void setUp() {
         BankAccount.setBankAccountDao(mockBankAccountDao);
@@ -23,12 +24,23 @@ public class BankAccountTest {
 
     @Test
     public void testOpenNewAccountThenPersistToDB() {
-        String accountNumber = "1234567890";
+
         BankAccount.openAccount(accountNumber);
 
         ArgumentCaptor<BankAccountDTO> bankAccountCaptor = ArgumentCaptor.forClass(BankAccountDTO.class);
         verify(mockBankAccountDao).save(bankAccountCaptor.capture());
         assertEquals(bankAccountCaptor.getValue().getAccountNumber(),accountNumber);
         assertEquals(bankAccountCaptor.getValue().getBalance(),0,0.001);
+    }
+
+    @Test
+    public void testGetTheAccountInformation() {
+        BankAccountDTO accountFromDB = BankAccount.getAccount(accountNumber);
+
+        BankAccountDTO answerBankAccountDTO = new BankAccountDTO(accountNumber);
+        when(mockBankAccountDao.getAccount(accountNumber)).thenReturn(answerBankAccountDTO);
+
+        assertEquals(answerBankAccountDTO.getAccountNumber(),accountFromDB.getAccountNumber());
+        assertEquals(answerBankAccountDTO.getBalance(),accountFromDB.getBalance(),0.001);
     }
 }
