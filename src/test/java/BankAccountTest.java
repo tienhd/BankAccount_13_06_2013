@@ -35,10 +35,12 @@ public class BankAccountTest {
 
     @Test
     public void testGetTheAccountInformation() {
-        BankAccountDTO accountFromDB = BankAccount.getAccount(accountNumber);
+
 
         BankAccountDTO answerBankAccountDTO = new BankAccountDTO(accountNumber);
         when(mockBankAccountDao.getAccount(accountNumber)).thenReturn(answerBankAccountDTO);
+
+        BankAccountDTO accountFromDB = BankAccount.getAccount(accountNumber);
 
         assertEquals(answerBankAccountDTO.getAccountNumber(),accountFromDB.getAccountNumber());
         assertEquals(answerBankAccountDTO.getBalance(),accountFromDB.getBalance(),0.001);

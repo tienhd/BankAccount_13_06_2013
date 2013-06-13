@@ -19,6 +19,6 @@ public class BankAccount {
     }
 
     public static BankAccountDTO getAccount(String accountNumber) {
-        return null;
+        return bankAccountDao.getAccount(accountNumber);
     }
 }
