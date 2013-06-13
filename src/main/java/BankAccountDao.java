@@ -14,4 +14,8 @@ public class BankAccountDao {
     public BankAccountDTO getAccount(String accountNumber) {
         return null;
     }
+
+    public void save(BankAccountDTO capture, String capture1) {
+
+    }
 }

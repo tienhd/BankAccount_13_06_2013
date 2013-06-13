@@ -21,4 +21,18 @@ public class BankAccount {
     public static BankAccountDTO getAccount(String accountNumber) {
         return bankAccountDao.getAccount(accountNumber);
     }
+
+    public static void deposit(String accountNumber, double depositBalance, String log) {
+        BankAccountDTO accountDTO = bankAccountDao.getAccount(accountNumber);
+        double balance = accountDTO.getBalance() + depositBalance;
+        accountDTO.setBalance(balance);
+        bankAccountDao.save(accountDTO,log);
+    }
+
+    public static void withdraw(String accountNumber, double withdrawBalance, String log) {
+        BankAccountDTO accountDTO = bankAccountDao.getAccount(accountNumber);
+        double balance = accountDTO.getBalance() - withdrawBalance;
+        accountDTO.setBalance(balance);
+        bankAccountDao.save(accountDTO,log);
+    }
 }
