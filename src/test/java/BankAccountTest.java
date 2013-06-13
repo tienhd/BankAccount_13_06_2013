@@ -61,11 +61,11 @@ public class BankAccountTest {
     public void testDepositMoneyToAccount() {
         double depositBalance = 50;
         String log = "deposited 50 to account";
-        BankAccount.deposit(accountNumber,depositBalance,log);
 
         BankAccountDTO answerBankAccountDTO = new BankAccountDTO(accountNumber);
         when(mockBankAccountDao.getAccount(accountNumber)).thenReturn(answerBankAccountDTO);
 
+        BankAccount.deposit(accountNumber,depositBalance,log);
         ArgumentCaptor<BankAccountDTO> accountDTOCaptor = ArgumentCaptor.forClass(BankAccountDTO.class);
         ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
         verify(mockBankAccountDao).save(accountDTOCaptor.capture(),stringArgumentCaptor.capture());
