@@ -44,5 +44,18 @@ public class BankAccountTest {
 
         assertEquals(answerBankAccountDTO.getAccountNumber(),accountFromDB.getAccountNumber());
         assertEquals(answerBankAccountDTO.getBalance(),accountFromDB.getBalance(),0.001);
+
     }
+
+    @Test
+    public void testGetAccountInformationArgument() {
+        BankAccount.getAccount(accountNumber);
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(mockBankAccountDao).getAccount(argumentCaptor.capture());
+
+        assertEquals(argumentCaptor.getValue(),accountNumber);
+
+    }
+
+
 }
