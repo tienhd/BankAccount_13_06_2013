@@ -72,6 +72,22 @@ public class BankAccountTest {
         assertEquals(accountDTOCaptor.getValue().getAccountNumber(),accountNumber);
         assertEquals(accountDTOCaptor.getValue().getBalance(),50,0.001);
         assertEquals(stringArgumentCaptor.getValue(),log);
+    }
 
+    @Test
+    public void testWithdrawMoneyToAccount() {
+        double withdrawBalance = 50;
+        String log = "withdraw 50 from account";
+
+        BankAccountDTO answerBankAccountDTO = new BankAccountDTO(accountNumber,100);
+        when(mockBankAccountDao.getAccount(accountNumber)).thenReturn(answerBankAccountDTO);
+
+        BankAccount.withdraw(accountNumber,withdrawBalance,log);
+        ArgumentCaptor<BankAccountDTO> accountDTOCaptor = ArgumentCaptor.forClass(BankAccountDTO.class);
+        ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(mockBankAccountDao).save(accountDTOCaptor.capture(),stringArgumentCaptor.capture());
+        assertEquals(accountDTOCaptor.getValue().getAccountNumber(),accountNumber);
+        assertEquals(accountDTOCaptor.getValue().getBalance(),50,0.001);
+        assertEquals(stringArgumentCaptor.getValue(),log);
     }
 }
