@@ -57,5 +57,21 @@ public class BankAccountTest {
 
     }
 
+    @Test
+    public void testDepositMoneyToAccount() {
+        double depositBalance = 50;
+        String log = "deposited 50 to account";
+        BankAccount.deposit(accountNumber,depositBalance,log);
 
+        BankAccountDTO answerBankAccountDTO = new BankAccountDTO(accountNumber);
+        when(mockBankAccountDao.getAccount(accountNumber)).thenReturn(answerBankAccountDTO);
+
+        ArgumentCaptor<BankAccountDTO> accountDTOCaptor = ArgumentCaptor.forClass(BankAccountDTO.class);
+        ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+        verify(mockBankAccountDao).save(accountDTOCaptor.capture(),stringArgumentCaptor.capture());
+        assertEquals(accountDTOCaptor.getValue().getAccountNumber(),accountNumber);
+        assertEquals(accountDTOCaptor.getValue().getBalance(),50,0.001);
+        assertEquals(stringArgumentCaptor.getValue(),log);
+
+    }
 }
