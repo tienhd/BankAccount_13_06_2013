@@ -7,7 +7,7 @@
  */
 public class BankAccountDao {
 
-    public void save(BankAccountDTO capture) {
+    public void save(BankAccountDTO bankAccountDTO) {
 
     }
 }
