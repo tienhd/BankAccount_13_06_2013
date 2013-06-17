@@ -19,7 +19,8 @@ public class Transaction {
         Transaction.timeSystem = timeSystem;
     }
 
-    public static void depositedLog(String accountNumber, double amount, long timeStamp, String log) {
-
+    public static void depositedLog(String accountNumber, double amount, String log) {
+        long timeStamp = timeSystem.getTimeInMillis();
+        transactionDao.depositedLog(accountNumber,amount,timeStamp,log);
     }
 }

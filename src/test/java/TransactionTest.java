@@ -38,7 +38,7 @@ public class TransactionTest {
         ArgumentCaptor<Long> timeStampCaptor = ArgumentCaptor.forClass(Long.class);
         ArgumentCaptor<String> logCaptor = ArgumentCaptor.forClass(String.class);
 
-        Transaction.depositedLog(accountNumber, amount, timeStamp, log);
+        Transaction.depositedLog(accountNumber, amount, log);
         verify(mockTransactionDao).depositedLog(accountNumberCaptor.capture(), amountMoneyCaptor.capture(), timeStampCaptor.capture(), logCaptor.capture());
         assertEquals(accountNumberCaptor.getValue(),accountNumber);
         assertEquals(amountMoneyCaptor.getValue().doubleValue(),amount,0.001);
