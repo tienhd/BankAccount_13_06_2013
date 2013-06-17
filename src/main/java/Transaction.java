@@ -1,3 +1,5 @@
+import java.util.Calendar;
+
 /**
  * Created with IntelliJ IDEA.
  * User: sqv-nbt
@@ -6,4 +8,18 @@
  * To change this template use File | Settings | File Templates.
  */
 public class Transaction {
+    private static TransactionDao transactionDao;
+    private static Calendar timeSystem;
+
+    public static void setTransactionDao(TransactionDao transactionDao) {
+        Transaction.transactionDao = transactionDao;
+    }
+
+    public static void setTimeSystem(Calendar timeSystem) {
+        Transaction.timeSystem = timeSystem;
+    }
+
+    public static void depositedLog(String accountNumber, double amount, long timeStamp, String log) {
+
+    }
 }
