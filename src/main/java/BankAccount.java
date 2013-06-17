@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -21,18 +22,18 @@ public class BankAccount {
         bankAccountDao.save(bankAccountDTO);
     }
 
-    public static BankAccountDTO getAccount(String accountNumber) {
+    public static BankAccountDTO getAccount(String accountNumber) throws SQLException {
         return bankAccountDao.getAccount(accountNumber);
     }
 
-    public static void deposit(String accountNumber, double depositBalance, String log) {
+    public static void deposit(String accountNumber, double depositBalance, String log) throws SQLException {
         BankAccountDTO accountDTO = bankAccountDao.getAccount(accountNumber);
         double balance = accountDTO.getBalance() + depositBalance;
         accountDTO.setBalance(balance);
         bankAccountDao.save(accountDTO,log);
     }
 
-    public static void withdraw(String accountNumber, double withdrawBalance, String log) {
+    public static void withdraw(String accountNumber, double withdrawBalance, String log) throws SQLException {
         BankAccountDTO accountDTO = bankAccountDao.getAccount(accountNumber);
         double balance = accountDTO.getBalance() - withdrawBalance;
         accountDTO.setBalance(balance);

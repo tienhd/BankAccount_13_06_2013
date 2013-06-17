@@ -9,15 +9,24 @@ public class BankAccountDTO {
 
     private String accountNumber;
     private double balance;
+    private String description;
 
     public BankAccountDTO(String accountNumber) {
         this.accountNumber = accountNumber;
         this.balance = 0;
+        this.description = "";
     }
 
     public BankAccountDTO(String accountNumber, double balance) {
         this.accountNumber = accountNumber;
         this.balance = balance;
+        this.description = "";
+    }
+
+    public BankAccountDTO(String accountNumber, double balance, String description) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+        this.description = description;
     }
 
     public String getAccountNumber() {

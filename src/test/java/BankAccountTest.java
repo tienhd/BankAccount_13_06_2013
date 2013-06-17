@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -39,7 +40,7 @@ public class BankAccountTest {
     }
 
     @Test
-    public void testGetTheAccountInformation() {
+    public void testGetTheAccountInformation() throws SQLException {
 
 
         BankAccountDTO answerBankAccountDTO = new BankAccountDTO(accountNumber);
@@ -53,7 +54,7 @@ public class BankAccountTest {
     }
 
     @Test
-    public void testGetAccountInformationArgument() {
+    public void testGetAccountInformationArgument() throws SQLException {
         BankAccount.getAccount(accountNumber);
         ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
         verify(mockBankAccountDao).getAccount(argumentCaptor.capture());
@@ -63,7 +64,7 @@ public class BankAccountTest {
     }
 
     @Test
-    public void testDepositMoneyToAccount() {
+    public void testDepositMoneyToAccount() throws SQLException {
         double depositBalance = 50;
         String log = "deposited 50 to account";
 
@@ -80,7 +81,7 @@ public class BankAccountTest {
     }
 
     @Test
-    public void testWithdrawMoneyToAccount() {
+    public void testWithdrawMoneyToAccount() throws SQLException {
         double withdrawBalance = 50;
         String log = "withdraw 50 from account";
 
