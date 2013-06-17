@@ -43,7 +43,7 @@ public class BankAccount {
         BankAccount.transactionDao = transactionDao;
     }
 
-    public static ArrayList<TransactionDTO> getTransactionOccurred() {
-        return transactionDao.getTransactionOccurred();
+    public static ArrayList<TransactionDTO> getTransactionOccurred(String accountNumber) {
+        return transactionDao.getTransactionOccurred(accountNumber);
     }
 }

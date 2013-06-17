@@ -109,8 +109,8 @@ public class BankAccountTest {
         listTransaction.add(transactionDTO2);
         listTransaction.add(transactionDTO3);
 
-        when(mockTransactionDao.getTransactionOccurred()).thenReturn(listTransaction);
-        ArrayList<TransactionDTO> resultList = BankAccount.getTransactionOccurred();
+        when(mockTransactionDao.getTransactionOccurred(accountNumber)).thenReturn(listTransaction);
+        ArrayList<TransactionDTO> resultList = BankAccount.getTransactionOccurred(accountNumber);
         int i = 0;
         for (TransactionDTO tr: listTransaction) {
             assertEquals(tr,resultList.get(i));
