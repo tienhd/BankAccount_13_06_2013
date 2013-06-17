@@ -46,4 +46,8 @@ public class BankAccount {
     public static ArrayList<TransactionDTO> getTransactionOccurred(String accountNumber) {
         return transactionDao.getTransactionOccurred(accountNumber);
     }
+
+    public static ArrayList<TransactionDTO> getTransactionOccurred(String accountNumber, long startTime, long endTime) {
+        return transactionDao.getTransactionOccurred(accountNumber,startTime,endTime);
+    }
 }

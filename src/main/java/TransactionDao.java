@@ -20,4 +20,8 @@ public class TransactionDao {
     public ArrayList<TransactionDTO> getTransactionOccurred(String accountNumber) {
         return null;
     }
+
+    public ArrayList<TransactionDTO> getTransactionOccurred(String accountNumber, long startTime, long endTime) {
+        return null;
+    }
 }

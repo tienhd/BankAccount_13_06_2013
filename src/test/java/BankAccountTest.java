@@ -116,5 +116,38 @@ public class BankAccountTest {
             assertEquals(tr,resultList.get(i));
             i++;
         }
+
+        ArgumentCaptor<String> accountNumberCaptor = ArgumentCaptor.forClass(String.class);
+        verify(mockTransactionDao).getTransactionOccurred(accountNumberCaptor.capture());
+        assertEquals(accountNumberCaptor.getValue(),accountNumber);
+    }
+
+    @Test
+    public void testGetTransactionBetween2Times() {
+        long startTime = 10000;
+        long endTime = 10200;
+        ArrayList<TransactionDTO> listTransaction = new ArrayList<TransactionDTO>();
+
+        TransactionDTO transactionDTO1 = new TransactionDTO(accountNumber,50,10001,"deposited 50");
+        TransactionDTO transactionDTO2 = new TransactionDTO(accountNumber,150,10100,"deposited 150");
+        TransactionDTO transactionDTO3 = new TransactionDTO(accountNumber,-20,10500,"withdraw 20");
+
+        listTransaction.add(transactionDTO1);
+        listTransaction.add(transactionDTO2);
+        when(mockTransactionDao.getTransactionOccurred(accountNumber,startTime,endTime)).thenReturn(listTransaction);
+        ArrayList<TransactionDTO> resultList = BankAccount.getTransactionOccurred(accountNumber,startTime,endTime);
+        int i = 0;
+        for (TransactionDTO tr: listTransaction) {
+            assertEquals(tr,resultList.get(i));
+            i++;
+        }
+
+        ArgumentCaptor<String> accountNumberCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Long> startTimeCaptor = ArgumentCaptor.forClass(Long.class);
+        ArgumentCaptor<Long> endTimeCaptor = ArgumentCaptor.forClass(Long.class);
+        verify(mockTransactionDao).getTransactionOccurred(accountNumberCaptor.capture(),startTimeCaptor.capture(),endTimeCaptor.capture());
+        assertEquals(accountNumberCaptor.getValue(),accountNumber);
+        assertEquals(startTimeCaptor.getValue().longValue(),startTime);
+        assertEquals(endTimeCaptor.getValue().longValue(),endTime);
     }
 }
