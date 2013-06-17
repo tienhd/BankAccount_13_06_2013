@@ -25,6 +25,7 @@ public class Transaction {
     }
 
     public static void withdrawLog(String accountNumber, double amount, String log) {
-
+        long timeStamp = timeSystem.getTimeInMillis();
+        transactionDao.withdrawLog(accountNumber,-amount,timeStamp,log);
     }
 }

@@ -2,10 +2,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,10 +16,15 @@ import static org.mockito.Mockito.when;
  */
 public class BankAccountTest {
     BankAccountDao mockBankAccountDao = mock(BankAccountDao.class);
+    TransactionDao mockTransactionDao = mock(TransactionDao.class);
+
     final String accountNumber = "1234567890";
     @Before
     public void setUp() {
+        reset(mockBankAccountDao);
+        reset(mockTransactionDao);
         BankAccount.setBankAccountDao(mockBankAccountDao);
+        BankAccount.setTransactionDao(mockTransactionDao);
     }
 
     @Test
@@ -89,5 +94,27 @@ public class BankAccountTest {
         assertEquals(accountDTOCaptor.getValue().getAccountNumber(),accountNumber);
         assertEquals(accountDTOCaptor.getValue().getBalance(),50,0.001);
         assertEquals(stringArgumentCaptor.getValue(),log);
+    }
+
+    @Test
+    public void testGetTransactionOccurred() {
+
+        ArrayList<TransactionDTO> listTransaction = new ArrayList<TransactionDTO>();
+
+        TransactionDTO transactionDTO1 = new TransactionDTO(accountNumber,50,10001,"deposited 50");
+        TransactionDTO transactionDTO2 = new TransactionDTO(accountNumber,150,10100,"deposited 150");
+        TransactionDTO transactionDTO3 = new TransactionDTO(accountNumber,-20,10500,"withdraw 20");
+
+        listTransaction.add(transactionDTO1);
+        listTransaction.add(transactionDTO2);
+        listTransaction.add(transactionDTO3);
+
+        when(mockTransactionDao.getTransactionOccurred()).thenReturn(listTransaction);
+        ArrayList<TransactionDTO> resultList = BankAccount.getTransactionOccurred();
+        int i = 0;
+        for (TransactionDTO tr: listTransaction) {
+            assertEquals(tr,resultList.get(i));
+            i++;
+        }
     }
 }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created with IntelliJ IDEA.
  * User: sqv-nbt
@@ -8,6 +10,7 @@
 public class BankAccount {
 
     private static BankAccountDao bankAccountDao;
+    private static TransactionDao transactionDao;
 
     public static void setBankAccountDao(BankAccountDao bankAccountDao) {
         BankAccount.bankAccountDao = bankAccountDao;
@@ -34,5 +37,13 @@ public class BankAccount {
         double balance = accountDTO.getBalance() - withdrawBalance;
         accountDTO.setBalance(balance);
         bankAccountDao.save(accountDTO,log);
+    }
+
+    public static void setTransactionDao(TransactionDao transactionDao) {
+        BankAccount.transactionDao = transactionDao;
+    }
+
+    public static ArrayList<TransactionDTO> getTransactionOccurred() {
+        return transactionDao.getTransactionOccurred();
     }
 }

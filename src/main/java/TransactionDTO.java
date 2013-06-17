@@ -6,4 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 public class TransactionDTO {
+
+    public TransactionDTO(String accountNumber, double amount, long timeStamp, String log) {
+
+    }
 }
