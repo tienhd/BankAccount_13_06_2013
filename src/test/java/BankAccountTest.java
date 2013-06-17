@@ -150,4 +150,33 @@ public class BankAccountTest {
         assertEquals(startTimeCaptor.getValue().longValue(),startTime);
         assertEquals(endTimeCaptor.getValue().longValue(),endTime);
     }
+
+    @Test
+    public void testGetNTransactions() {
+        int n = 2;
+        ArrayList<TransactionDTO> listTransaction = new ArrayList<TransactionDTO>();
+
+        TransactionDTO transactionDTO1 = new TransactionDTO(accountNumber,50,10001,"deposited 50");
+        TransactionDTO transactionDTO2 = new TransactionDTO(accountNumber,150,10100,"deposited 150");
+        TransactionDTO transactionDTO3 = new TransactionDTO(accountNumber,-20,10500,"withdraw 20");
+
+        listTransaction.add(transactionDTO1);
+        listTransaction.add(transactionDTO2);
+
+        when(mockTransactionDao.getTransactionOccurred(accountNumber,n)).thenReturn(listTransaction);
+        ArrayList<TransactionDTO> resultList = BankAccount.getTransactionOccurred(accountNumber,n);
+        int i = 0;
+        for (TransactionDTO tr: listTransaction) {
+            assertEquals(tr,resultList.get(i));
+            i++;
+        }
+
+        ArgumentCaptor<String> accountNumberCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Integer> numberCaptor = ArgumentCaptor.forClass(Integer.class);
+        verify(mockTransactionDao).getTransactionOccurred(accountNumberCaptor.capture(),numberCaptor.capture());
+
+        assertEquals(accountNumberCaptor.getValue(),accountNumber);
+        assertEquals(numberCaptor.getValue().intValue(),n);
+
+    }
 }
