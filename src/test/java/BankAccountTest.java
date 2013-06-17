@@ -179,4 +179,18 @@ public class BankAccountTest {
         assertEquals(numberCaptor.getValue().intValue(),n);
 
     }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testGetNTransactionExceptionWhenNIsIllegal() {
+        int n = -2;
+
+        when(mockTransactionDao.getTransactionOccurred(accountNumber,n)).thenReturn(null);
+        ArrayList<TransactionDTO> resultList = BankAccount.getTransactionOccurred(accountNumber,n);
+        ArgumentCaptor<String> accountNumberCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Integer> numberCaptor = ArgumentCaptor.forClass(Integer.class);
+        verify(mockTransactionDao).getTransactionOccurred(accountNumberCaptor.capture(),numberCaptor.capture());
+
+        assertEquals(accountNumberCaptor.getValue(),accountNumber);
+        assertEquals(numberCaptor.getValue().intValue(),n);
+    }
 }
