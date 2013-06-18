@@ -17,8 +17,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
 import java.sql.Connection;
+import java.sql.ResultSet;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,11 +31,12 @@ import static junit.framework.Assert.assertEquals;
  */
 public class BankAccountDaoTest {
     private static final String JDBC_DRIVER = org.h2.Driver.class.getName();
-    private static final String JDBC_URL = "jdbc:h2:mem;DB_CLOSE_DELAY=-1";
+    private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
     private static final String resourcePath = new File ("").getAbsolutePath() + "/src/test/resource";
+    private static Connection persistConnection;
     private static Connection myConnection;
 
     @BeforeClass
@@ -58,8 +61,8 @@ public class BankAccountDaoTest {
 
     }
 
-    public static void insertDataSetToDB(ReplacementDataSet replacementDataSet) throws Exception {
-        DatabaseOperation.CLEAN_INSERT.execute(new DatabaseConnection(myConnection),replacementDataSet);
+    public static void persistDataSet (ReplacementDataSet replacementDataSet) throws Exception {
+        DatabaseOperation.CLEAN_INSERT.execute(new DatabaseConnection(persistConnection),replacementDataSet);
     }
 
     private DataSource dataSource() {
@@ -70,6 +73,24 @@ public class BankAccountDaoTest {
         return dataSource;
     }
 
+    @Before
+    public void setConnection() throws Exception{
+        myConnection = dataSource().getConnection();
+    }
+
+    @Test
+    public void testOpenNewAccountWithZeroBalance() throws Exception {
+        BankAccountDao bankAccountDao = new BankAccountDao(dataSource());
+        BankAccountDTO account = new BankAccountDTO("0123456789");
+        bankAccountDao.save(account);
+
+        //test Query to DB
+        String queryString = "SELECT * FROM BANK_ACCOUNT WHERE ACCOUNT_NUMBER = '0123456789' AND BALANCE = 0";
+        ResultSet resultSet = myConnection.createStatement().executeQuery(queryString);
+
+        assertTrue(resultSet.next());
+    }
+
     @Test
     public void testFindByAccountNumber() throws Exception {
         BankAccountDao bankAccountDao = new BankAccountDao(dataSource());
@@ -77,4 +98,7 @@ public class BankAccountDaoTest {
 
         assertEquals("1234567890", account.getAccountNumber());
     }
+
+
+
 }

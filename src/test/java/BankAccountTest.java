@@ -29,7 +29,7 @@ public class BankAccountTest {
     }
 
     @Test
-    public void testOpenNewAccountThenPersistToDB() {
+    public void testOpenNewAccountThenPersistToDB() throws SQLException{
 
         BankAccount.openAccount(accountNumber);
 

@@ -17,7 +17,7 @@ public class BankAccount {
         BankAccount.bankAccountDao = bankAccountDao;
     }
 
-    public static void openAccount(String accountNumber) {
+    public static void openAccount(String accountNumber) throws SQLException{
         BankAccountDTO bankAccountDTO = new BankAccountDTO(accountNumber);
         bankAccountDao.save(bankAccountDTO);
     }
