@@ -29,7 +29,7 @@ import static junit.framework.Assert.assertTrue;
  * Time: 3:49 PM
  * To change this template use File | Settings | File Templates.
  */
-public class BankAccountDaoTest {
+public class BankAccountDaoH2DBTest {
     private static final String JDBC_DRIVER = org.h2.Driver.class.getName();
     private static final String JDBC_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
     private static final String USER = "sa";
@@ -98,7 +98,5 @@ public class BankAccountDaoTest {
 
         assertEquals("1234567890", account.getAccountNumber());
     }
-
-
 
 }
